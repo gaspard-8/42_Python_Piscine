@@ -1,17 +1,15 @@
 #!/usr/bin/env python3
 
 class Plant:
-    def __init__(self, name, height, age):
-        self.name = name
-        self.height = height
-        self.age = age
+    def __init__(self, Name, Height, Age):
+        self.Name = Name
+        self.Height = Height
+        self.Age = Age
         pass
 
 
 def print_plant(plant: Plant) -> None:
-    print("Plant:", plant.name)
-    print(f"Height: {plant.height}cm")
-    print("Age:", plant.age, "days")
+    print(f"{plant.Name}: {plant.Height}cm, {plant.Age} days old")
 
 
 def main():
