@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 class SecurePlant:
     def __init__(self, Name: str, Height: int, Age: int):
         self.Name = Name
@@ -36,7 +38,15 @@ class SecurePlant:
     def get_info(self):
         print(f"{self.Name}: {self.Height}cm, {self.Age} days old")
 
+
 def main():
-    plant = SecurePlant(name)
-    print(f"Created: {name} ({height}cm, {age} days)")
-    plant.set_height25
+    plant = SecurePlant("Thomas", 180, 26)
+    print(f"Created: {plant.Name} ({plant.Height}cm, {plant.Age} days)")
+    if (plant.set_height(190)):
+        print(f"Height successfully modified to {plant.Height}")
+    if (plant.set_age(-1)):
+        print(f"height successfully modified to {plant.Height}")
+
+
+if __name__ == "__main__":
+    main()
