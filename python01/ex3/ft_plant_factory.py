@@ -1,25 +1,25 @@
 #!/usr/bin/env python3
 
 class Plant:
-    def __init__(self, Name: str, Height: int, Age: int):
-        self.Name = Name
-        self.Height = Height
-        self.Age = Age
+    def __init__(self, name: str, height: int, plant_age: int):
+        self.name = name
+        self.height = height
+        self.plant_age = plant_age
         pass
 
     def grow(self, days: int):
-        self.Height = self.Height + days
+        self.height = self.height + days
 
     def age(self, days: int):
-        self.Age = self.Age + days
+        self.plant_age = self.plant_age + days
 
     def get_info(self):
-        print(f"{self.Name}: {self.Height}cm, {self.Age} days old")
+        print(f"{self.name}: {self.height}cm, {self.plant_age} days old")
 
 
-def create_plant(name, height, age) -> Plant:
-    plant = Plant(name, height, age)
-    print(f"Created: {name} ({height}cm, {age} days)")
+def create_plant(name, height, plant_age) -> Plant:
+    plant = Plant(name, height, plant_age)
+    print(f"Created: {name} ({height}cm, {plant_age} days)")
     return plant
 
 

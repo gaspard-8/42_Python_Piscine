@@ -1,20 +1,20 @@
 #!/usr/bin/env python3
 
 class Plant:
-    def __init__(self, Name: str, Height: int, Age: int):
-        self.Name = Name
-        self.Height = Height
-        self.Age = Age
+    def __init__(self, name: str, height: int, plant_age: int):
+        self.name = name
+        self.height = height
+        self.plant_age = plant_age
         pass
 
     def grow(self, days: int):
-        self.Height = self.Height + days
+        self.height = self.height + days
 
     def age(self, days: int):
-        self.Age = self.Age + days
+        self.plant_age = self.plant_age + days
 
     def get_info(self):
-        print(f"{self.Name}: {self.Height}cm, {self.Age} days old")
+        print(f"{self.name}: {self.height}cm, {self.plant_age} days old")
 
 
 def main():
@@ -28,7 +28,7 @@ def main():
         plant.age(1)
     print(f"=== Day {i} ===")
     plant.get_info()
-    print(f"Growth this week: +{plant.Height - 25}cm")
+    print(f"Growth this week: +{plant.height - 25}cm")
 
 
 if __name__ == "__main__":

@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 class Plant:
     def __init__(self, name: str, height: int, age: int):
         self.name = name
@@ -59,23 +58,3 @@ class Vegetable(Plant):
     def get_info(self):
         print(f"{self.name} (Vegetablee): {self.height}cm, {self.age}"
               f" days old, {self.harvest_season} harvest")
-
-
-def main():
-    print("=== Garden Plant type ===")
-    rose = Flower("Rose", 25, 30, "red")
-    violette = Flower("Violette", 15, 31, "purple")
-    oak = Tree("Oak", 500, 1825, 50)
-    olivier = Tree("Olivier", 400, 1400, 20)
-    tomato = Vegetable("Tomato", 80, 90, "summer", "vitamin C")
-    brocolli = Vegetable("Broccoli", 50, 30, "autumn", "iron")
-    rose.get_info()
-    violette.get_info()
-    oak.get_info()
-    olivier.get_info()
-    tomato.get_info()
-    brocolli.get_info()
-
-
-if __name__ == "__main__":
-    main()
