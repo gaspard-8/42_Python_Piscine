@@ -3,49 +3,56 @@
 class SecurePlant:
     def __init__(self, name: str, height: int, age: int):
         self.name = name
-        self.height = height
-        self.age = age
+        self.__height = height
+        self.__age = age
         pass
 
-    def set_height(self, height=0) -> bool:
+    def set_height(self, height: int):
         if height < 0:
-            print(f"Invalid set_height attempted : height={height} [REJECTED]")
-            return (False)
+            raise ValueError(f"Invalid set_height"
+                             f" attempted : {height} [REJECTED]")
         else:
-            self.height = height
-            return (True)
+            self.__height = height
 
-    def set_age(self, age=0) -> bool:
+    def set_age(self, age: int):
         if age < 0:
-            print(f"Invalid set_age attempted : age = {age} [REJECTED]")
-            return (False)
+            raise ValueError("negative age")
         else:
-            self.age = age
-        return (True)
+            self.__age = age
 
     def get_height(self):
-        if self.height < 0:
+        if self._height < 0:
             print("Security : Negative height rejected")
         else:
-            print(f"Height of {self}: {self.height}")
+            print(f"Height of {self}: {self.__height}")
 
-    def get_age(self):
-        if self.age < 0:
-            print("Security : Negative age rejected")
+    def get_age(self) -> int:
+        if self.__age < 0:
+            raise ValueError("negative age")
         else:
-            print(f"Age of {self}: {self.age}")
+            print(f"Age of {self}: {self.__age}")
+            return (self.__age)
 
     def get_info(self):
-        print(f"{self.name}: {self.height}cm, {self.age} days old")
+        print(f"{self.name}: {self.__height}cm, {self.__age} days old")
 
 
 def main():
+    print("=== Very secure Garden ===")
     plant = SecurePlant("Thomas", 180, 26)
-    print(f"Created: {plant.name} ({plant.height}cm, {plant.age} days)")
-    if (plant.set_height(190)):
-        print(f"Height successfully modified to {plant.height}")
-    if (plant.set_age(-1)):
-        print(f"height successfully modified to {plant.height}")
+    plant.get_info()
+    height = -90
+    try:
+        (plant.set_height(height))
+    except ValueError:
+        print(f"Invalid set_age attempted : {height} [REJECTED]")
+    height = 100
+    try:
+        (plant.set_height(height))
+    except ValueError:
+        print(f"Invalid set_age attempted : {height}[REJECTED]")
+    else:
+        print(f"Height updated to :{height}cm [OK]")
 
 
 if __name__ == "__main__":
