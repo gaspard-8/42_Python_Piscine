@@ -3,14 +3,14 @@ class Plant:
     def __init__(self, name: str, height: int, age: int):
         self.name = name
         self.height = height
-        self.age = age
+        self.plant_age = age
         pass
 
     def grow(self, days: int):
         self.height = self.height + days
 
     def age(self, days: int):
-        self.age = self.age + days
+        self.plant_age = self.plant_age + days
 
     def get_info(self):
         print(f"{self.name}: {self.height}cm, {self.age} days old")
@@ -53,8 +53,7 @@ class Vegetable(Plant):
         pass
 
     def bloom(self):
-        shade = (self.height / 100) * (self.trunk_diameter / 5)
-        print(f"{self.name} provides{shade} square meters of shade")
+        print("Ca bloom")
 
     def get_info(self):
         print(f"{self.name} (Vegetablee): {self.height}cm, {self.age}"

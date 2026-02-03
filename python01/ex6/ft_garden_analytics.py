@@ -1,60 +1,120 @@
+#!/usr/bin/env python3
+
 class Plant:
     def __init__(self, name: str, height: int, age: int):
         self.name = name
-        self.height = height
-        self.age = age
+        self.__height = height
+        self.__age = age
         pass
+
+    def set_height(self, height: int):
+        if height < 0:
+            raise ValueError(f"Invalid set_height"
+                             f" attempted : {height} [REJECTED]")
+        else:
+            self.__height = height
+
+    def set_age(self, age: int):
+        if age < 0:
+            raise ValueError("Negative age")
+        else:
+            self.__age = age
+
+    def get_height(self):
+        if self.__height < 0:
+            raise ValueError("Negative height")
+        else:
+            return self.__height
+
+    def get_age(self) -> int:
+        if self.__age < 0:
+            raise ValueError("Negative age")
+        else:
+            return (self.__age)
 
     def grow(self, days: int):
-        self.height = self.height + days
+        self.__height = self.__height + days
 
     def age(self, days: int):
-        self.age = self.age + days
+        self.__age = self.__age + days
 
     def get_info(self):
-        print(f"{self.name}: {self.height}cm, {self.age} days old")
+        print(f"{self.name}: {self.__height}cm, {self.__age} days old")
 
 
-class Flower(Plant):
-    def __init__(self, name, height, age, color):
+class FloweringPlant(Plant):
+    def __init__(self, name: str, height: int, age: int, color: str):
         super().__init__(name, height, age)
-        self.color = color
+        self.__color = color
         pass
+
+    def get_color(self):
+        return self.__color
+
+    def set_color(self, color: str):
+        self.__color = color
 
     def bloom(self):
         print(f"{self.name} is blooming beautifully!")
 
     def get_info(self):
-        print(f"{self.name} (Flower): {self.height}cm,{self.age}"
-              f" days old, color : {self.color}")
+        print(f"{self.name} (Flower): {self.get_height()}cm,{self.get_age()}"
+              f" days old, color : {self.__color}")
+
+
+class PrizeFlower(FloweringPlant):
+    def __init__(self, name, height, age, color):
+        super().__init__(name, height, age, color)
 
 
 class Tree(Plant):
     def __init__(self, name, height, age, trunk_diameter):
         super().__init__(name, height, age)
-        self.trunk_diameter = trunk_diameter
+        self.__trunk_diameter = trunk_diameter
         pass
 
     def produce_shade(self):
-        shade = (self.height / 100) * (self.trunk_diameter / 5)
+        shade = (self.__height / 100) * (self.__trunk_diameter / 5)
         print(f"{self.name} provides{shade} square meters of shade")
 
     def get_info(self):
-        print(f"{self.name} (Tree): {self.height}cm, {self.age} days old,"
-              f" {self.trunk_diameter} squares meters of shade")
+        print(f"{self.name} (Tree): {self.__height}cm, {self.__age} days old,"
+              f" {self.__trunk_diameter} squares meters of shade")
 
 
-class Vegetable(Plant):
-    def __init__(self, name, height, age, harvest_season, nutritional_value):
-        super().__init__(name, height, age)
-        self.harvest_season = harvest_season
-        self.nutritional_value = nutritional_value
-        pass
+class Garden:
+    def __init__(self, name: str, plants: list[Plant]):
+        self.__name = name
+        self.__list_of_plants = plants
 
-    def bloom(self):
-        shade = (self.height / 100) * (self.trunk_diameter / 5)
-        print(f"{self.name} provides{shade} square meters of shade")
+    def add_plants(self, plants: list[Plant]):
+        self.__list_of_plants = self.__list_of_plants + plants
+
+    def get_nb_of_plants(self):
+        return len(self.__list_of_plants)
 
     def get_info(self):
-        print(f"{self.name} (Vegetablee): {self.height}cm, {self.age}"
-              f" days old, {self.harvest_season} harvest")
+        print(f"===== Welcome to {self.__name} Garden =====")
+        print(f"{self.__name} Garden has {self.get_nb_of_plants()} plants")
+        for plant in self.__list_of_plants:
+            plant.get_info()
+        print("===== Please come visit again ! =====")
+
+
+class GardenManager:
+    def __init__(self, gardens: list[Garden]):
+        self.__list_of_gardens = gardens
+
+
+def main():
+    plants = []
+    plants.append(Plant("test", 1, 1))
+    garden = Garden("Mon jardin", plants)
+    plants2 = []
+    plants2.append(Plant("Rose", 20, 20))
+    garden.add_plants(plants2)
+    garden.get_info()
+
+
+if __name__ == "__main__":
+    main()

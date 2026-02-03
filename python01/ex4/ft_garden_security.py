@@ -16,21 +16,20 @@ class SecurePlant:
 
     def set_age(self, age: int):
         if age < 0:
-            raise ValueError("negative age")
+            raise ValueError("Negative age")
         else:
             self.__age = age
 
     def get_height(self):
-        if self._height < 0:
-            print("Security : Negative height rejected")
+        if self.__height < 0:
+            raise ValueError("Negative height")
         else:
-            print(f"Height of {self}: {self.__height}")
+            return self.__height
 
     def get_age(self) -> int:
         if self.__age < 0:
-            raise ValueError("negative age")
+            raise ValueError("Negative age")
         else:
-            print(f"Age of {self}: {self.__age}")
             return (self.__age)
 
     def get_info(self):
@@ -53,6 +52,10 @@ def main():
         print(f"Invalid set_age attempted : {height}[REJECTED]")
     else:
         print(f"Height updated to :{height}cm [OK]")
+    height = plant.get_height()
+    print(f"height of Thomas using get_height : {height}")
+    print("Check of the get_info method with private variables :")
+    plant.get_info()
 
 
 if __name__ == "__main__":
