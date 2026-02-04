@@ -2,9 +2,10 @@
 
 class Plant:
     def __init__(self, name: str, height: int, age: int):
-        self.name = name
+        self.__name = name
         self.__height = height
         self.__age = age
+        self.__garden = None
         pass
 
     def set_height(self, height: int):
@@ -20,6 +21,12 @@ class Plant:
         else:
             self.__age = age
 
+    def set_garden(self, garden):
+        self.__garden = garden
+
+    def get_name(self):
+        return self.__name
+
     def get_height(self):
         if self.__height < 0:
             raise ValueError("Negative height")
@@ -32,14 +39,17 @@ class Plant:
         else:
             return (self.__age)
 
-    def grow(self, days: int):
-        self.__height = self.__height + days
+    def get_garden(self):
+        return ()
+
+    def grow(self, size: int):
+        self.__height = self.__height + size
 
     def age(self, days: int):
         self.__age = self.__age + days
 
     def get_info(self):
-        print(f"{self.name}: {self.__height}cm, {self.__age} days old")
+        print(f"{self.__name}: {self.__height}cm, {self.__age} days old")
 
 
 class FloweringPlant(Plant):
@@ -55,10 +65,10 @@ class FloweringPlant(Plant):
         self.__color = color
 
     def bloom(self):
-        print(f"{self.name} is blooming beautifully!")
+        print(f"{self.__name} is blooming beautifully!")
 
     def get_info(self):
-        print(f"{self.name} (Flower): {self.get_height()}cm,{self.get_age()}"
+        print(f"{self.__name} (Flower): {self.get_height()}cm,{self.get_age()}"
               f" days old, color : {self.__color}")
 
 
@@ -75,10 +85,11 @@ class Tree(Plant):
 
     def produce_shade(self):
         shade = (self.__height / 100) * (self.__trunk_diameter / 5)
-        print(f"{self.name} provides{shade} square meters of shade")
+        print(f"{self.__name} provides{shade} square meters of shade")
 
     def get_info(self):
-        print(f"{self.name} (Tree): {self.__height}cm, {self.__age} days old,"
+        print(f"{self.__name} (Tree): {self.__height}cm, "
+              f"{self.__age} days old,"
               f" {self.__trunk_diameter} squares meters of shade")
 
 
@@ -88,7 +99,9 @@ class Garden:
         self.__list_of_plants = plants
 
     def add_plants(self, plants: list[Plant]):
-        self.__list_of_plants = self.__list_of_plants + plants
+        for plant in plants:
+            self.__list_of_plants.append(plant)
+            plant.set_garden
 
     def get_nb_of_plants(self):
         return len(self.__list_of_plants)
@@ -100,10 +113,21 @@ class Garden:
             plant.get_info()
         print("===== Please come visit again ! =====")
 
+    def age(self, days: int):
+        for plant in self.__list_of_plants:
+            plant.age(days)
+
+    def grow(self, size: int):
+        for plant in self.__list_of_plants:
+            plant.grow(size)
+
 
 class GardenManager:
     def __init__(self, gardens: list[Garden]):
         self.__list_of_gardens = gardens
+
+    def add_gardens(self, gardens: list[Garden]):
+        self.__list_of_gardens = self.__list_of_gardens + gardens
 
 
 def main():
