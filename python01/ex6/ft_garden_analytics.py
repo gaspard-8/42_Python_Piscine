@@ -68,14 +68,14 @@ class FloweringPlant(Plant):
         self.__color = color
 
     def bloom(self):
-        print(f"{self.__name} is blooming beautifully!")
+        print(f"{self.get_name()} is blooming beautifully!")
 
     def get_info(self):
-        print(f"{self.__name} (Flower): {self.get_height()}cm,{self.get_age()}"
+        print(f"{self.get_name()} (Flower): {self.get_height()}cm,{self.get_age()}"
               f" days old, color : {self.__color}")
 
     def score(self) -> int:
-        return 4 * self.__height
+        return 4 * self.get_height()
 
 
 class PrizeFlower(FloweringPlant):
@@ -93,7 +93,7 @@ class PrizeFlower(FloweringPlant):
             self.__prizepoints = prize_points
 
     def score(self) -> int:
-        return 10 * self.__height
+        return 10 * self.get_height()
 
 
 class Tree(Plant):
@@ -103,12 +103,12 @@ class Tree(Plant):
         pass
 
     def produce_shade(self):
-        shade = (self.__height / 100) * (self.__trunk_diameter / 5)
-        print(f"{self.__name} provides{shade} square meters of shade")
+        shade = (self.get_height() / 100) * (self.__trunk_diameter / 5)
+        print(f"{self.get_name()} provides{shade} square meters of shade")
 
     def get_info(self):
-        print(f"{self.__name} (Tree): {self.__height}cm, "
-              f"{self.__age} days old,"
+        print(f"{self.get_name()} (Tree): {self.get_height()}cm, "
+              f"{self.get_age()} days old,"
               f" {self.__trunk_diameter} squares meters of shade")
 
 
