@@ -9,6 +9,9 @@ class PlantError(GardenError):
     pass
 
 
+class TypePlantError:
+
+
 class WaterError(GardenError):
     message = "Not enough water left to water the plants"
     pass
@@ -115,60 +118,20 @@ class Garden:
                 raise PlantError(plant.get_name())
 
 
-def main():
-    print("=== Demonstration of Custom Exception Handling ===\n")
+def water_plants(plant_list: list) -> None:
+    print("=== Garden Watering System ===")
+    for plant in plant_list:
+        if plant.__class__ == Plant:
+            print(f"Watered {plant.get_name()}")
+        else:
+            raise NewError
 
-    # Create some plants and a garden
-    rose = Plant("Rose", 30, 10)
-    tulip = Plant("Tulip", 20, 5)
-    cactus = Plant("Cactus", 15, 8)
 
-    garden = Garden("My Garden", [rose, tulip, cactus])
-    rose.set_garden(garden)
-    tulip.set_garden(garden)
-
-    # Scenario 1: Catching GardenError
-    print("1. Testing GardenError - Plant not in a garden:")
+def test_watering_system():
+    list = []
+    list.append(Plant("rose", 3, 3))
+    list.append("Salut")
+    list.append(Plant("platane", 4, 4))
     try:
-        orphan_plant = Plant("Orphan", 10, 3)
-        orphan_plant.get_garden()  # This raises GardenError
-    except GardenError as e:
-        print(f"   ✓ Caught GardenError: {e.message}")
-    print()
-
-    # Scenario 3: Catching PlantError - Plant not found in garden
-    print("3. Testing PlantError - Plant not found in garden:")
-    try:
-        garden.water_plant("NonExistentPlant")  # This raises PlantError
-    except PlantError as e:
-        print(e.message)
-    print()
-
-    # Scenario 4: Catching WaterError - Not enough water
-    print("4. Testing WaterError - Insufficient water:")
-    try:
-        garden.watertank = 5  # Set low water
-        garden.water_plants()  # This raises WaterError
-    except WaterError as e:
-        print(f"   ✓ Caught WaterError: {e.message}")
-    print()
-
-    # Scenario 5: Catching all GardenError types (polymorphism)
-    print("5. Testing polymorphic exception catching:")
-    test_cases = [
-        lambda: Plant("Test", 10, 5).get_garden(),
-        lambda: garden.water_plant("Ghost"),
-        lambda: setattr(garden, 'watertank', 1) or garden.water_plants()
-    ]
-
-    for i, test in enumerate(test_cases, 1):
-        try:
-            test()
-        except GardenError as e:
-            print(f"  Test {i}: Caught GardenError (base class) : {e.message}")
-
-    print("\n=== All exception scenarios tested successfully ===")
-
-
-if __name__ == "__main__":
-    main()
+        water_plants(list)
+    except:
