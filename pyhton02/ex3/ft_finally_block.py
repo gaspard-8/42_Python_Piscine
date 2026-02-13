@@ -9,7 +9,9 @@ class PlantError(GardenError):
     pass
 
 
-class TypePlantError:
+class TypePlantError(GardenError):
+    def __init__(self, type_: type):
+        self.message = f"the elemt is a {type_} not a Plant"
 
 
 class WaterError(GardenError):
@@ -118,20 +120,34 @@ class Garden:
                 raise PlantError(plant.get_name())
 
 
-def water_plants(plant_list: list) -> None:
-    print("=== Garden Watering System ===")
-    for plant in plant_list:
-        if plant.__class__ == Plant:
-            print(f"Watered {plant.get_name()}")
-        else:
-            raise NewError
+def water_plants(plant_list: list[Plant]) -> int:
+    check = 1
+    try:
+        for plant in plant_list:
+            if plant.__class__ == Plant:
+                print(f"Watered {plant.get_name()}")
+            else:
+                raise TypePlantError(type(plant))
+    except TypePlantError as e:
+        print(f"Watering Error : {e.message}")
+        check = 0
+    finally:
+        print("closes the watering system")
+        return check
 
 
 def test_watering_system():
     list = []
     list.append(Plant("rose", 3, 3))
-    list.append("Salut")
+    list.append(Plant("BG", 4, 5))
     list.append(Plant("platane", 4, 4))
-    try:
-        water_plants(list)
-    except:
+    print("")
+    if water_plants(list):
+        print("Watering completed successfully")
+    print()
+    list.append("Salut")
+    if water_plants(list):
+        print("Watering completed successfully")
+
+
+test_watering_system()

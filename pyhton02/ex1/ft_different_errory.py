@@ -17,7 +17,6 @@ def garden_operations():
         print("Caught FileNotFoundError: No such file 'missing.txt'")
     print("Testing KeyError...")
     garden = {"flower": "rose", "tree": "platane"}
-        close("missing.txt")
     try:
         print(garden['missing_plant'])
     except KeyError:
