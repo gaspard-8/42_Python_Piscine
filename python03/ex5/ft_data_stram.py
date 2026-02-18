@@ -24,17 +24,18 @@ def game_event(size: int):
         print(f"{player} (level {lvl}) {evnt}")
         if lvl > 25:
             high_level_count += 1
-        if event == "leveled up":
+        if evnt == "leveled up":
             lvl_event_count += 1
-        if event == "killed monster":
+        if evnt == "killed monster":
             montser_killed += 1
-        if event == "found treasure":
+        if evnt == "found treasure":
             tevent_count += 1
     print(f"Total events processed: {size}")
     print(f"High-level players (25+): {high_level_count}")
     print(f"Treasure events: {tevent_count}")
-    print(f"Level-up events: {}")
-
+    print(f"Level-up events: {lvl_event_count}")
+    print()
+    print(f"Memory usage: onstant ")
 
 def main():
     print("=== Game data Stream Processor ===")
