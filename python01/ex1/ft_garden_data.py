@@ -9,7 +9,8 @@ class Plant:
 
 
 def print_plant(plant: Plant) -> None:
-    print(f"{plant.plant_name}: {plant.plant_height}cm, {plant.plant_age} days old")
+    print(f"{plant.plant_name}: {plant.plant_height}cm, "
+          "{plant.plant_age} days old")
 
 
 def main():

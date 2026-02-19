@@ -71,7 +71,8 @@ class FloweringPlant(Plant):
         print(f"{self.get_name()} is blooming beautifully!")
 
     def get_info(self):
-        print(f"{self.get_name()} (Flower): {self.get_height()}cm,{self.get_age()}"
+        print(f"{self.get_name()} (Flower):"
+              f" {self.get_height()}cm,{self.get_age()}"
               f" days old, color : {self.__color}")
 
     def score(self) -> int:
@@ -81,16 +82,19 @@ class FloweringPlant(Plant):
 class PrizeFlower(FloweringPlant):
     def __init__(self, name, height, age, color, prize_points):
         super().__init__(name, height, age, color)
-        self.__prizepoints = prize_points
+        self.__prize_points = prize_points
 
     def get_prize_points(self) -> int:
-        return self.__prizepoints
+        return self.__prize_points
 
-    def set_prize_poitns(self, prize_points: int):
+    def set_prize_points(self, prize_points: int):
         if prize_points < 0:
             raise ValueError
         else:
-            self.__prizepoints = prize_points
+            self.__prize_points = prize_points
+
+    def set_prize_poitns(self, prize_points: int):
+        self.set_prize_points(prize_points)
 
     def score(self) -> int:
         return 10 * self.get_height()
@@ -104,12 +108,12 @@ class Tree(Plant):
 
     def produce_shade(self):
         shade = (self.get_height() / 100) * (self.__trunk_diameter / 5)
-        print(f"{self.get_name()} provides{shade} square meters of shade")
+        print(f"{self.get_name()} provides {shade} square meters of shade")
 
     def get_info(self):
         print(f"{self.get_name()} (Tree): {self.get_height()}cm, "
               f"{self.get_age()} days old,"
-              f" {self.__trunk_diameter} squares meters of shade")
+              f" {self.__trunk_diameter} square meters of shade")
 
 
 class Garden:
@@ -133,17 +137,19 @@ class Garden:
         print(f"{self.__name} Garden has {self.get_nb_of_plants()} plants")
         for plant in self.__list_of_plants:
             plant.get_info()
-        print("PLant types : ")
-        print("===== Please come visit again ! =====")
-        print("PLant types", end='')
+        print("Plant types : ")
+
         if self.get_nb_of_reg_plants() > 0:
             print(f"{self.get_nb_of_reg_plants()} regular plant(s)")
         if self.get_nb_of_tree() > 0:
-            print(f"{self.get_nb_of_tree} tree(s)")
+            print(f"{self.get_nb_of_tree()} tree(s)")
         if self.get_nb_of_flower() > 0:
             print(f"{self.get_nb_of_flower()} flower(s)")
         if self.get_nb_of_prize_flowers() > 0:
             print(f"{self.get_nb_of_prize_flowers()} prize flower(s)")
+        print()
+        print("===== Please come visit again ! =====")
+        print()
 
     def age(self, days: int):
         for plant in self.__list_of_plants:
@@ -156,46 +162,43 @@ class Garden:
     def get_nb_of_reg_plants(self) -> int:
         nb = 0
         for plants in self.__list_of_plants:
-            if (plants.__class__ == "Plant"):
+            if isinstance(plants, Plant):
                 nb += 1
-            nb += 1
         return nb
 
     def get_nb_of_tree(self) -> int:
         nb = 0
         for plants in self.__list_of_plants:
-            if (plants.__class__ == "Tree"):
+            if isinstance(plants, Tree):
                 nb += 1
-            nb += 1
         return nb
 
     def get_nb_of_flower(self) -> int:
         nb = 0
         for plants in self.__list_of_plants:
-            if (plants.__class__ == "Flower"):
+            if isinstance(plants, FloweringPlant):
                 nb += 1
-            nb += 1
         return nb
 
     def get_nb_of_prize_flowers(self) -> int:
         nb = 0
         for plants in self.__list_of_plants:
-            if (plants.__class__ == "PrizeFlower"):
+            if isinstance(plants, PrizeFlower):
                 nb += 1
-            nb += 1
         return nb
 
     def score(self):
         score = 0
         for plant in self.__list_of_plants:
             score += plant.score()
+        return score
 
 
 class GardenManager:
     class GardenStats:
         @staticmethod
-        def foo():
-            pass
+        def area(a: int, b: int) -> int:
+            return (a*b)
 
     def __init__(self, gardens: list[Garden]):
         self.__list_of_gardens = gardens
@@ -210,7 +213,7 @@ class GardenManager:
         return i
 
     def get_info(self):
-        print(f"Garden manager report for {self.nb_of_gardens} garden(s)")
+        print(f"Garden manager report for {self.nb_of_gardens()} garden(s)")
         for garden in self.__list_of_gardens:
             garden.get_info()
 
@@ -219,6 +222,7 @@ class GardenManager:
         manager = cls([])
         for names in garden_names:
             manager.add_gardens([Garden(names, [])])
+        return manager
 
 
 def main():
@@ -226,120 +230,71 @@ def main():
     print("DEMONSTRATION OF GARDEN ANALYTICS SYSTEM")
     print("=" * 60)
 
-    # === 1. Creating different types of plants ===
-    print("\n--- 1. Creating Plants ---")
+    print("\n--- Plant classes ---")
     basic_plant = Plant("Basil", 15, 30)
-    basic_plant.get_info()
-
     flower = FloweringPlant("Rose", 25, 45, "Red")
-    flower.get_info()
-
     prize_flower = PrizeFlower("Orchid", 30, 60, "Purple", 100)
-    prize_flower.get_info()
-
     tree = Tree("Oak", 500, 365, 50)
-    tree.get_info()
+    for plant in [basic_plant, flower, prize_flower, tree]:
+        plant.get_info()
 
-    # === 2. Demonstrating plant methods ===
-    print("\n--- 2. Plant Growth and Aging ---")
-    print(f"Before growth: {basic_plant.get_name()} is {basic_plant.get_height()}cm")
     basic_plant.grow(5)
-    print(f"After growing 5cm: {basic_plant.get_name()} is {basic_plant.get_height()}cm")
-
-    print(f"Before aging: {basic_plant.get_name()} is {basic_plant.get_age()} days old")
     basic_plant.age(10)
-    print(f"After aging 10 days: {basic_plant.get_name()} is {basic_plant.get_age()} days old")
+    print(f"{basic_plant.get_name()} after updates: "
+          f"{basic_plant.get_height()}cm, {basic_plant.get_age()} days")
 
-    # === 3. Demonstrating flowering plant features ===
-    print("\n--- 3. Flowering Plant Features ---")
     flower.bloom()
-    print(f"Color: {flower.get_color()}")
     flower.set_color("Pink")
-    print(f"New color: {flower.get_color()}")
+    print(f"{flower.get_name()} color: {flower.get_color()}")
 
-    # === 4. Demonstrating prize flower features ===
-    print("\n--- 4. Prize Flower Features ---")
-    print(f"Prize points: {prize_flower.get_prize_points()}")
-    prize_flower.set_prize_poitns(150)
-    print(f"Updated prize points: {prize_flower.get_prize_points()}")
-
-    # === 5. Demonstrating tree features ===
-    print("\n--- 5. Tree Features ---")
+    prize_flower.set_prize_points(150)
+    print(f"{prize_flower.get_name()} prize points: "
+          f"{prize_flower.get_prize_points()}")
     tree.produce_shade()
 
-    # === 6. Demonstrating scoring system ===
-    print("\n--- 6. Plant Scoring System ---")
-    print(f"Basic plant ({basic_plant.get_name()}) score: {basic_plant.score()}")
-    print(f"Flowering plant ({flower.get_name()}) score: {flower.score()}")
-    print(f"Prize flower ({prize_flower.get_name()}) score: {prize_flower.score()}")
+    print("\n--- Plant scores ---")
+    for plant in [basic_plant, flower, prize_flower]:
+        print(f"{plant.get_name()} score: {plant.score()}")
 
-    # === 7. Creating gardens ===
-    print("\n--- 7. Creating Gardens ---")
-    garden1_plants = [
+    print("\n--- Gardens ---")
+    garden1 = Garden("Sunny Garden", [
         Plant("Tomato", 40, 50),
         FloweringPlant("Tulip", 20, 35, "Yellow"),
         FloweringPlant("Sunflower", 150, 60, "Yellow")
-    ]
-    garden1 = Garden("Sunny Garden", garden1_plants)
-
-    garden2_plants = [
+    ])
+    garden2 = Garden("Forest Garden", [
         Tree("Pine", 800, 730, 80),
         PrizeFlower("Blue Rose", 35, 90, "Blue", 200),
         Plant("Fern", 25, 40)
-    ]
-    garden2 = Garden("Forest Garden", garden2_plants)
-
-    # === 8. Demonstrating garden methods ===
-    print("\n--- 8. Garden Information ---")
+    ])
     garden1.get_info()
-    print()
     garden2.get_info()
 
-    # === 9. Garden growth and aging ===
-    print("\n--- 9. Garden-wide Growth and Aging ---")
-    print(f"Garden1 has {garden1.get_nb_of_plants()} plants")
-    print("Growing all plants by 10cm...")
     garden1.grow(10)
-    print("Aging all plants by 7 days...")
     garden1.age(7)
-    garden1.get_info()
-
-    # === 10. Adding plants to existing garden ===
-    print("\n--- 10. Adding Plants to Garden ---")
-    new_plants = [
+    garden1.add_plants([
         FloweringPlant("Daisy", 15, 20, "White"),
         Plant("Cactus", 10, 100)
-    ]
-    print(f"Before adding: {garden1.get_nb_of_plants()} plants")
-    garden1.add_plants(new_plants)
-    print(f"After adding: {garden1.get_nb_of_plants()} plants")
+    ])
+    print(f"Sunny Garden now has {garden1.get_nb_of_plants()} plants")
+    print(f"Sunny Garden score: {garden1.score()}")
 
-    # === 11. Creating GardenManager ===
-    print("\n--- 11. Garden Manager System ---")
+    print("\n--- Garden manager + stats ---")
     manager = GardenManager([garden1, garden2])
-    print(f"Manager oversees {manager.nb_of_gardens()} gardens")
-
-    # === 12. Adding gardens to manager ===
-    print("\n--- 12. Adding More Gardens to Manager ---")
-    garden3 = Garden("Herb Garden", [
+    manager.add_gardens([Garden("Herb Garden", [
         Plant("Mint", 12, 25),
         Plant("Oregano", 8, 30)
-    ])
-    manager.add_gardens([garden3])
-    print(f"Now managing {manager.nb_of_gardens()} gardens")
-
-    # === 13. Full manager report ===
-    print("\n--- 13. Full Garden Manager Report ---")
+    ])])
+    print(f"Manager oversees {manager.nb_of_gardens()} gardens")
     manager.get_info()
 
-    # === 14. Creating garden network ===
-    print("\n--- 14. Creating Garden Network ---")
     network_manager = GardenManager.create_garden_network([
-        "Community Garden",
-        "Botanical Garden",
-        "Rooftop Garden"
+        "Community Garden", "Botanical Garden", "Rooftop Garden"
     ])
-    print("Garden network created successfully!")
+    print(f"Network gardens: {network_manager.nb_of_gardens()}")
+
+    sample_area = GardenManager.GardenStats.area(12, 8)
+    print(f"Sample area (12 x 8): {sample_area}")
 
     print("\n" + "=" * 60)
     print("DEMONSTRATION COMPLETE")
