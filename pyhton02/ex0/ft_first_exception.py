@@ -40,5 +40,5 @@ def main():
     test_temperature_input()
 
 
-# if __name__ == main():
-#     main()
+if __name__ == main():
+    main()
