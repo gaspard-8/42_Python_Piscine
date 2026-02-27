@@ -126,6 +126,8 @@ class EventStream(DataStream):
                     self.usr_log = True
                 case "logout":
                     self.usr_log = False
+                case "error":
+                    self.errors += 1
                 case _:
                     self.readings += -1
                     raise ValueError(f"{data} is not a valid log")
@@ -142,6 +144,35 @@ class EventStream(DataStream):
                 list.append(data)
         return list
 
+    def get_stats(self) -> Dict[str, str | int | float]:
+        return {"stream_id": self.id, "streams processed": self.readings,
+                "user status": "logged in" if self.usr_log else "logged out"}
+
+
+class StreamProcessor():
+    def __init__(self) -> None:
+        proc0 = Sensorstream("SENSOR_0", "GENERAL")
+        proc1 = TransactionStream("TRANS_0", "GENERAL")
+        proc2 = EventStream("EVENT_0", "GENERAL")
+        self.processors = [proc0, proc1, proc2]
+
+    def process_batch(self, data_batch: list[Any]) -> str:
+        for data in data_batch:
+            for proc in self.processors:
+                try:
+                    proc.process_batch([data])
+                except ValueError:
+                    pass
+                except Exception as e:
+                    raise e
+        return (f"processed mixed data : {data_batch}")
+
+    def get_stats(self):
+        print("Batch results:")
+        print(f"Sensor data : {self.processors[0].get_stats()}")
+        print(f"Transaction data : {self.processors[1].get_stats()}")
+        print(f"Event data : {self.processors[2].get_stats()}")
+
 
 def main():
 
@@ -153,7 +184,8 @@ def main():
                                         "pressure:1013"]))
     except Exception as e:
         print(e)
-    print("processing filtered data : ...")
+    print(f"processing filtered data (only temp): "
+          f"{['temp:400', 'humidity:43', 'pressure:1013']}")
     try:
         sens_stream.process_batch(sens_stream.filter_data
                                   (["temp:400", "humidity:43",
@@ -161,7 +193,7 @@ def main():
     except Exception as e:
         print(e)
     print(f"Stats of the stream :{sens_stream.get_stats()}")
-    print(f"{sens_stream.temp}{sens_stream.humidity}")
+    print()
 
     print("Initializing Sensor stream with ID TRANS_001 and type:"
           " 'Financial data'")
@@ -170,15 +202,38 @@ def main():
         print(trans_stream.process_batch(["buy:100", "sell:150", "buy:75"]))
     except Exception as e:
         print(e)
-    print("processing filtered data : ...")
+    print(f"processing filtered data (>100): "
+          f"{['buy:90', 'sell:150', 'buy:75']}")
     try:
         trans_stream.process_batch(trans_stream.filter_data
                                    (["buy:90", "sell:150", "buy:75"], "high"))
     except Exception as e:
         print(e)
     print(f"Stats of the stream :{trans_stream.get_stats()}")
+    print()
 
+    print("Initializing Event stream with ID TRANS_001 and type:"
+          " 'system events'")
+    log_stream = EventStream("EVENT_001", "system events")
+    try:
+        print(log_stream.process_batch(["login", "error", "logout", "login"]))
+    except Exception as e:
+        print(e)
+    print(f"processing filtered data (errors): {['error', 'logout', 'error']}")
+    try:
+        log_stream.process_batch(log_stream.filter_data
+                                 (["error", "logout", "error"], "error"))
+    except Exception as e:
+        print(e)
+    print(f"Stats of the stream :{log_stream.get_stats()}")
+    print()
 
+    print("=== Polymorphic Stream Processing ===")
+    print("Processing mixed stream types through unified interface...")
+    proc = StreamProcessor()
+    data = ["login", "temp:32", "temp:23", "error", "buy:12", "logout"]
+    print(proc.process_batch(data))
+    proc.get_stats()
 
 
 if __name__ == "__main__":

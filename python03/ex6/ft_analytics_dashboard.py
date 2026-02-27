@@ -26,7 +26,7 @@ def main():
     print(f"Player scores : {scores}")
     print(f"Score  categories: {score_cat}")
     print(f"Achievement counts: {achievements}")
-
+    print()
     print("=== Set comprehension examples ===")
     players = {player for player in data['players'].keys()}
     un_achievement = {ach for ach in data['achievements']}
@@ -37,7 +37,8 @@ def main():
     print()
     average_score = (sum([sess["score"] for sess in data['sessions']])
                      / len(data['sessions']))
-    print("=== Cpmbined Analysis ===")
+    print()
+    print("=== Combined Analysis ===")
     print(f"Total players: {len(players)}")
     print(f"Total unique achievements: {len(un_achievement)}")
     print(f"Average score = {average_score:.2f}")

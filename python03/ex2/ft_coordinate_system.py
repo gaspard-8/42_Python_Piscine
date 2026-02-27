@@ -37,7 +37,7 @@ def main():
     else:
         print(f"parsed position : {coord_tuple}")
         print(f"distance between 0 and {coord_tuple} :"
-              f" {distance((0,0,0), coord_tuple)}")
+              f" {distance((0,0,0), coord_tuple):.2f}")
         print()
         print("Unpacking demonstration")
         (x, y, z) = coord_tuple

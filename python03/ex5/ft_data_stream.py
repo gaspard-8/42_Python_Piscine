@@ -31,6 +31,9 @@ def game_event(size: int):
             montser_killed += 1
         if evnt == "found treasure":
             tevent_count += 1
+        print()
+    print("===========================================")
+    print()
     print(f"Total events processed: {size}")
     print(f"High-level players (25+): {high_level_count}")
     print(f"Treasure events: {tevent_count}")
@@ -73,6 +76,7 @@ def main():
     game_event(nb_of_events)
     end = timer()
     time_taken = end - start
+
     print("Memory usage: Constant (streaming)")
     print(f"Processing time: {time_taken:.2} seconds")
     print()
