@@ -21,10 +21,9 @@ class DataStream(ABC):
         return {"stream_id": self.id}
 
 
-class Sensorstream(DataStream):
-    def __init__(self, stream_id: str, type: str) -> None:
+class SensorStream(DataStream):
+    def __init__(self, stream_id: str) -> None:
         super().__init__(stream_id)
-        self.type = type
         self.readings = 0
         self.temp: list[float] = []
         self.humidity: list[float] = []
@@ -74,9 +73,8 @@ class Sensorstream(DataStream):
 
 
 class TransactionStream(DataStream):
-    def __init__(self, stream_id: str, type: str) -> None:
+    def __init__(self, stream_id: str) -> None:
         super().__init__(stream_id)
-        self.type = type
         self.readings = 0
         self.net = 0
 
@@ -111,9 +109,8 @@ class TransactionStream(DataStream):
 
 
 class EventStream(DataStream):
-    def __init__(self, stream_id: str, type: str) -> None:
+    def __init__(self, stream_id: str) -> None:
         super().__init__(stream_id)
-        self.type = type
         self.readings = 0
         self.errors = 0
         self.usr_log = False
@@ -151,9 +148,9 @@ class EventStream(DataStream):
 
 class StreamProcessor():
     def __init__(self) -> None:
-        proc0 = Sensorstream("SENSOR_0", "GENERAL")
-        proc1 = TransactionStream("TRANS_0", "GENERAL")
-        proc2 = EventStream("EVENT_0", "GENERAL")
+        proc0 = SensorStream("SENSOR_0")
+        proc1 = TransactionStream("TRANS_0")
+        proc2 = EventStream("EVENT_0")
         self.processors = [proc0, proc1, proc2]
 
     def process_batch(self, data_batch: list[Any]) -> str:
@@ -178,7 +175,7 @@ def main():
 
     print("Initializing Sensor stream with ID SENSOR_001 and type:"
           " 'Environmental data'")
-    sens_stream = Sensorstream("SENSOR_001", "Environmental data")
+    sens_stream = SensorStream("SENSOR_001")
     try:
         print(sens_stream.process_batch(["temp:432.4", "humidity:43",
                                         "pressure:1013"]))
@@ -197,7 +194,7 @@ def main():
 
     print("Initializing Sensor stream with ID TRANS_001 and type:"
           " 'Financial data'")
-    trans_stream = TransactionStream("SENSOR_001", "Environmental data")
+    trans_stream = TransactionStream("SENSOR_001")
     try:
         print(trans_stream.process_batch(["buy:100", "sell:150", "buy:75"]))
     except Exception as e:
@@ -214,7 +211,7 @@ def main():
 
     print("Initializing Event stream with ID TRANS_001 and type:"
           " 'system events'")
-    log_stream = EventStream("EVENT_001", "system events")
+    log_stream = EventStream("EVENT_001")
     try:
         print(log_stream.process_batch(["login", "error", "logout", "login"]))
     except Exception as e:
@@ -233,6 +230,7 @@ def main():
     proc = StreamProcessor()
     data = ["login", "temp:32", "temp:23", "error", "buy:12", "logout"]
     print(proc.process_batch(data))
+
     proc.get_stats()
 
 

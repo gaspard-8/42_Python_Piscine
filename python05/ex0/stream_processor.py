@@ -103,11 +103,11 @@ def main():
 
     print()
     print("==== Polymorphic processing Demo ===")
-    cls = [NumericProcessor, TextProcessor, LogProcessor]
+    proc = [NumericProcessor, TextProcessor, LogProcessor]
     data = [data1, data2, data3]
     for i in range(3):
         try:
-            print(f"Result {i + 1}: {cls[i]().process(data[i])}")
+            print(f"Result {i + 1}: {proc[i]().process(data[i])}")
         except TypeError as e:
             print(e)
     return
