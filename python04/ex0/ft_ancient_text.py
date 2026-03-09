@@ -13,7 +13,7 @@ def main():
         return
 
     print("Connection established")
-    print("Recoverd DATA : ")
+    print("Recovered DATA : ")
 
     data = f.read()
     print(data)
