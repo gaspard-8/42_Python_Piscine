@@ -1,6 +1,7 @@
 from ex4.TournamentCard import TournamentCard
 from ex4.TournamentPlatform import TournamentPlatform
 
+
 def main():
     print("=== DataDeck tournament Platform ===")
     print()
@@ -28,8 +29,16 @@ def main():
     print(tournament.register_card(card2))
     print(tournament.create_match(card.id, card2.id))
 
+    print("Second match:")
     print()
-    print(f"Leaderboard: {tournament.get_leaderboard()}")
+
+    print("Leaderboard:")
+    for card_id in tournament.get_leaderboard():
+        card = tournament.cards[card_id]
+        print(f"{card.name} - Rating: {card.calculate_rating()} "
+              f"({card.wins} - {card.losses})")
+
+    print()
     print(f"Report: {tournament.generate_tournament_report()}")
     print("")
     pass

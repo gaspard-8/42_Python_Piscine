@@ -1,4 +1,3 @@
-from ex0.Card import Card
 from ex4.TournamentCard import TournamentCard
 
 
@@ -34,7 +33,8 @@ class TournamentPlatform():
 
     def get_leaderboard(self) -> list:
         lst = self.cards.items()
-        return sorted(lst, key=lambda obj: obj[1].calculate_rating())
+        temp = sorted(lst, key=lambda obj: (- obj[1].calculate_rating()))
+        return [a[0] for a in temp]
 
     def generate_tournament_report(self) -> dict:
         lst = self.cards.items()
