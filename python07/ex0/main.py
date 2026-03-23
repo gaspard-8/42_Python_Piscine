@@ -23,8 +23,8 @@ def main():
     print(f"Attack result: {card.attack_target(card2)}")
 
     print()
-    print("Testing insufficient man (3 available)")
-    print(card.is_playable(3))
+    print("Testing insufficient mana (3 available)")
+    print(f"Playable: {card.is_playable(3)}")
 
 
 if __name__ == "__main__":

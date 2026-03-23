@@ -8,8 +8,8 @@ def main():
     print(f"stone_to_gem(): {stone_to_gem()}")
     print()
 
-    from .alchemy.transmutation.advanced import (philosophers_stone,
-                                                 elixir_of_life)
+    from alchemy.transmutation.advanced import (philosophers_stone,
+                                                elixir_of_life)
     print(f"philosophers_stone(): {philosophers_stone()}")
     print(f"elixir_of_life(): {elixir_of_life()}")
     print()

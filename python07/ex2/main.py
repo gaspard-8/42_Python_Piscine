@@ -30,7 +30,7 @@ def main():
 
     print()
     print("Magic phase:")
-    print(f"Spell cast: {elite.cast_spell('Fireball', [target])}")
+    print(f"Spell cast: {elite.cast_spell('Fireball', [target.name])}")
     print(f"Mana channel: {elite.channel_mana(4)}")
 
     print()
