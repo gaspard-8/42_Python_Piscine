@@ -18,7 +18,7 @@ def main():
     print("CRISIS ALERT: Attempting access to 'lost_archive.txt'...")
     access_archive("lost_archives")
     print("CRISIS ALERT: Attempting access to 'classified_vault.txt'...")
-    access_archive("classical_vault.txt")
+    access_archive("classified_data.txt")
     print("ROUTINE ACCESS: Attempting access to 'standard_archive.txt'...")
     access_archive("standard_archive.txt")
     print("All crisis scenarios handled successfully. Archives secure.")
