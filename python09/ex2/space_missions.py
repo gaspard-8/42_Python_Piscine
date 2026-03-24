@@ -114,7 +114,7 @@ SPACE_MISSIONS = [
         'duration_days': 666,
         'crew': [
             {
-                'member_id': 'CM021',
+                'member_id': 'Ccontact report:M021',
                 'name': 'Lisa Garcia',
                 'rank': 'captain',
                 'age': 36,

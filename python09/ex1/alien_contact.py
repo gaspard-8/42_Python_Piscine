@@ -1,4 +1,4 @@
-from pydantic import BaseModel, Field, model_validator
+from pydantic import BaseModel, Field, model_validator, ValidationError
 from datetime import datetime
 from typing import Optional
 from enum import Enum
@@ -25,7 +25,7 @@ class AlienContact(BaseModel):
     is_verified: bool = False
 
     @model_validator(mode='after')
-    def validate(self):
+    def check(self):
         if self.contact_id[0] != 'A' or self.contact_id[1] != 'C':
             raise ValueError(f"invalid id : {self.contact_id},"
                              f" id must start with: AC")
@@ -44,6 +44,7 @@ class AlienContact(BaseModel):
     def display(self) -> None:
         print("Valid contact report:")
         print(f"ID: {self.contact_id}")
+        print(f"timestamp: {self.timestamp.date()}")
         print(f"Type: {self.contact_type.name}")
         print(f"Location: {self.location}")
         print(f"Signal: {self.signal_strength}")
@@ -61,9 +62,8 @@ def main():
         valid_contact = list(csv.DictReader(f))
     with open(filename_invalid) as f:
         invalid_contact = json.load(f)
-    print(valid_contact)
     for contact in valid_contact:
-        temp = AlienContact(**contact)
+        temp = AlienContact(**contact)  # type: ignore
         temp.display()
         print()
 
@@ -75,7 +75,7 @@ def main():
         try:
             temp = AlienContact(**contact)
             temp.display()
-        except ValueError as e:
+        except ValidationError as e:
             print(e.errors()[0]["msg"])
         print()
     pass

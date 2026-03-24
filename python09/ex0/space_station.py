@@ -1,4 +1,4 @@
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, ValidationError
 from datetime import datetime
 from typing import Optional
 import json
@@ -40,7 +40,7 @@ def main():
                              crew_size=76, power_level=23.3, oxygen_level=21.3,
                              last_maintenance=datetime.now(),
                              is_operational=True)
-    except Exception as e:
+    except ValidationError as e:
         print(e.errors()[0]["msg"])
     print()
 
@@ -51,6 +51,7 @@ def main():
             data = json.load(f)
     except Exception as e:
         print(e)
+        return
     for station in data:
         space = SpaceStation(**station)
         print()
